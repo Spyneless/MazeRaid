@@ -14,6 +14,8 @@ public class TileScript : MonoBehaviour {
 
     public Dictionary<TileScript, int> whichNeighbour;
 
+    private TileScript[] validConnections = new TileScript[4];
+
     // Use this for initialization
     void Start () {
 		
@@ -107,5 +109,37 @@ public class TileScript : MonoBehaviour {
     public void BlockPath(TileScript nb)
     {
         connectionValues[whichNeighbour[nb]] = -1;
+    }
+
+    public int RequestNBNumber(TileScript nb)
+    {
+        return whichNeighbour[nb];
+    }
+
+    public bool IsConnectedTo(TileScript ts)
+    {
+        for(int i = 0; i < 4; i++)
+            if(validConnections[i] != null && validConnections[i].name == ts.name)
+            {
+                return true;
+            }
+        return false;
+    }
+
+    public void AddValidConnection(TileScript ts)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            if (validConnections[i] == null)
+            {
+                validConnections[i] = ts;
+                i = 4;
+            }
+            else if (validConnections[i].name == ts.name)
+            {
+                Debug.Log("trying to add existing connection in node" + name);
+                break;
+            }
+        }
     }
 }
