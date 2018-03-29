@@ -10,7 +10,11 @@ public class TileScript : MonoBehaviour {
     public GameObject wall;
     public int[] connectionValues = new int[4];
     public TileScript[] connections = new TileScript[4];
+
+    //public parameters we do not want to see in the unity editor
     public bool Discovered {get; set;}
+    public int ID { get; set; }
+    public int Origin { get; set; }
 
     public Dictionary<TileScript, int> whichNeighbour;
 

@@ -13,6 +13,7 @@ public class MazeManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        int id = 0;
         grid = new TileScript[width][];
         for (int x = 0; x < width; x++)
         {
@@ -29,6 +30,10 @@ public class MazeManager : MonoBehaviour {
                 ts.coord = new Vector2(x, z);
                 ts.MazeDimensions = new Vector2(width, height);
                 ts.SetConnections();
+
+                ts.Origin = -1;
+                ts.ID = id;
+                id++;
             }
         }
         for (int x = 0; x < width; x++)
@@ -56,6 +61,7 @@ public class MazeManager : MonoBehaviour {
 
         TileScript source = grid[0][0];
         source.Discovered = true;
+        source.Origin = source.ID;
 
         //add north and east connection
         mazePathsFrom.Add(source.connectionValues[0], source);
@@ -92,54 +98,50 @@ public class MazeManager : MonoBehaviour {
 
             Debug.Log("OOOOO key-" + index + " " + from.name.ToString() + " -> " + to.name.ToString());
             
-
-            //from = mazePathsFrom[0];
-            //TileScript from = mazePathsFrom.Keys[0];
-            //to = mazePathsTo.Values[0];
             mazePathsFrom.Remove(index);
             mazePathsTo.Remove(index);
-
-            to.Discovered = true;
-
-            for(int i = 0; i < 4; i++)
+            if (to.Discovered)
+            { }
+            else
             {
-                if (to.connectionValues[i] == -1)
-                { }
-                else
+                to.Discovered = true;
+                to.Origin = from.ID;
+
+                for (int i = 0; i < 4; i++)
                 {
-                    TileScript nb = to.connections[i];
-                    int toIndex = 0;
-
-                    //get index of "To"'s connection in the neighbour
-                    if (nb != null)
-                        toIndex = nb.RequestNBNumber(to);
-
-                    if (!nb.Discovered)
-                    {
-                        //add
-                        int newpathvalue = to.connectionValues[i];
-                        if (!mazePathsTo.ContainsKey(newpathvalue))
-                        {
-                            mazePathsTo.Add(newpathvalue, nb);
-                            mazePathsFrom.Add(newpathvalue, to);
-                        }
-                        to.AddValidConnection(nb);
-                        nb.AddValidConnection(to);
-                        Debug.Log("discovered-" + to + "    new node-" + nb.name);
-                    }
-                    else if (nb.connections[i] != null && nb.IsConnectedTo(nb.connections[i]))
-                    {
-                        //don do anything
-                    }
+                    //"neighbour" would go out of bounds or is already closed off
+                    if (to.connectionValues[i] == -1)
+                    { }
                     else
                     {
-                        nb.BlockPath(to);
-                        //blockpath
-                        to.BlockPath(nb);
+                        TileScript nb = to.connections[i];
+
+                        //if not discovered, add the connection to the list
+                        if (!nb.Discovered)
+                        {
+                            //add
+                            int newpathvalue = to.connectionValues[i];
+                            if (!mazePathsTo.ContainsKey(newpathvalue))
+                            {
+                                mazePathsTo.Add(newpathvalue, nb);
+                                mazePathsFrom.Add(newpathvalue, to);
+                            }
+                            Debug.Log("discovered-" + to + "    new node-" + nb.name);
+                        }
+                        //else if discovered AND it is not your predecessor, block the path
+                        //else if (nb.connections[i] != null)
+                        //{
+                        else if (nb.ID != to.Origin)
+                        {
+                            nb.BlockPath(to);
+                            //blockpath
+                            to.BlockPath(nb);
+                        }
+                        //}
                     }
                 }
+                Debug.Log("//---//");
             }
-            Debug.Log("//---//");
         }
 
 
