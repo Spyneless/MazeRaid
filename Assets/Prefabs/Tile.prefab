@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 64465190682776030}
   - component: {fileID: 23778761118251966}
   - component: {fileID: 114989706077081712}
+  - component: {fileID: 65441791383391144}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -38,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1258219780309310}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -98,6 +99,18 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65441791383391144
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258219780309310}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.0000002, z: 6.123235e-17}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114989706077081712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,7 +128,7 @@ MonoBehaviour:
   wall: {fileID: 1729317341606040, guid: 4d66a761ae31b4d4eab9020d0394a286, type: 2}
   connectionValues: 00000000000000000000000000000000
   connections:
-  - {x: 2.4733849, y: 0}
-  - {x: 5.3e-44, y: 0}
-  - {x: 2.4063075e-33, y: 0}
-  - {x: 4.6e-44, y: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
